@@ -7,19 +7,28 @@
     <contributor>
       <uri>urn:vte.cx:acl:+,R</uri>
     </contributor>
-<content type="text/html">userinfo
- id(int)
- email
-favorite
- food!=^.{3}$
- music=^.{5}$
-hobby{}
- type
+<content type="text/html">
+transaction
+ number
+ date
+ job
+ subtotal
+ salestax
+ total
+my_company
+ my_name
+ my_zip
+ my_address
+ my_telephone
+customer
+ customer_name
+recode
+ seq
  name
- updated(date)
+ description
+ quantity
+ unit_price
+ line_total
 </content>
-<rights>
-userinfo.id:/.+/registration
-</rights>
 </entry>
 </feed>

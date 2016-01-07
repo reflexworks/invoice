@@ -1,0 +1,117 @@
+<div class="page">
+	<h4 class="page_title">見積書作成</h4>
+	<div class="page_menu">
+		<button class="btn btn-sm" data-id="load_template">テンプレート読込</button>
+		<button class="btn btn-sm" data-id="save_template">テンプレート保存</button>
+		<button class="btn btn-sm" data-id="preview">プレビュー</button>
+		<button class="btn btn-sm" data-id="create_quat">保存</button>
+		<button class="btn btn-sm" data-id="download">保存してダウンロード</button>
+	</div>
+	<div style="clear: both;"></div>
+	<form class="form">
+		<div class="form-group">
+			<div class="form_content_title">
+				<span>見積書No</span>
+			</div>
+			<div class="form_content_value">
+				<input type="text" class="form-control" id="number" />
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<div class="form-group">
+			<div class="form_content_title">
+				<span>見積日</span>
+			</div>
+			<div class="form_content_value">
+				<input type="text" class="form-control" id="date" />
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<div class="form-group">
+			<div class="form_content_title">
+				<span>顧客名</span>
+			</div>
+			<div class="form_content_value">
+				<input type="text" class="form-control" id="customer_name" />
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<div class="form-group">
+			<div class="form_content_title">
+				<span>件名</span>
+			</div>
+			<div class="form_content_value">
+				<input type="text" class="form-control" id="job" />
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<div class="form-group">
+			<div class="form_content_title_lg">
+				<span>明細</span>
+			</div>
+			<div class="form_content_value_lg">
+				<table id="recode_list">
+					<thead>
+						<tr>
+							<th>商品</th>
+							<th>詳細</th>
+							<th>数量</th>
+							<th>単価</th>
+							<th>合計</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+<!--
+						<tr>
+							<td><input type="text" class="form-control" data-id="name" /></td>
+							<td><input type="text" class="form-control" data-id="description" /></td>
+							<td><input type="text" class="form-control" data-id="quantity" /></td>
+							<td><input type="text" class="form-control" data-id="unit_price" /></td>
+							<td class="disp"><span data-id="line_total"></span></td>
+							<td><button class="btn" data-id="delete">削除</button></td>
+						</tr>
+-->
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3"><button class="btn" id="add_recode">明細追加</button></td>
+							<td>小計（¥）</td>
+							<td><span id="subtotal">0</span></td>
+							<td rowspan="3"></td>
+						</tr>
+						<tr>
+							<td colspan="3" rowspan="2"></td>
+							<td><input type="checkbox" id="is_salestax" checked="checked" />消費税（¥）</td>
+							<td><span id="salestax">0</span></td>
+						</tr>
+						<tr>
+							<td>総額（¥）</td>
+							<td><span id="total">0</span></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="form_content_title_lg">
+				<span>備考</span>
+			</div>
+			<div class="form_content_value_lg">
+				<textarea class="form-control" id="content"></textarea>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+	</form>
+	<div class="page_menu">
+		<button class="btn btn-sm" data-id="load_template">テンプレート読込</button>
+		<button class="btn btn-sm" data-id="save_template">テンプレート保存</button>
+		<button class="btn btn-sm" data-id="preview">プレビュー</button>
+		<button class="btn btn-sm" data-id="create_quat">保存</button>
+		<button class="btn btn-sm" data-id="download">保存してダウンロード</button>
+	</div>
+</div>
+
+<!-- build:js js/main.js -->
+<script src="scripts/create_quat.js"></script>
+<!-- endbuild -->

@@ -21,10 +21,51 @@
     <!-- endbuild -->
 
     <!-- build:js js/main.js -->
+    <script src="scripts/include.js"></script>
+    <script src="scripts/rest-module.js"></script>
+    <script src="scripts/common.js"></script>
     <script src="scripts/index.js"></script>
     <!-- endbuild -->
 </head>
 
 <body>
+
+<div class="header">
+	<h4 class="header_title">請求書作成アプリ</h4>
+	<div class="my_company_name" id="my_company_name">会社名</div>
+	<div class="accaunt_name" id="accaunt_name">アカウント名</div>
+	<div style="clear: both;"></div>
+</div>
+<div class="containar">
+	<div class="left_containar" id="side_menu">
+		<div>
+			<ul class="create_btn_area">
+				<li><a href="#create_quat">見積書作成</a></li>
+				<li><a href="#create_invo">請求書作成</a></li>
+			</ul>
+		</div>
+		<div>
+			<h4>書類管理</h4>
+			<ul>
+				<li><a href="#">見積書一覧</a></li>
+				<li><a href="#">請求書一覧</a></li>
+			</ul>
+		</div>
+		<div>
+			<h4>その他管理</h4>
+			<ul>
+				<li><a href="#">顧客一覧</a></li>
+				<li><a href="#">テンプレート一覧</a></li>
+				<li><a href="#">自社情報</a></li>
+				<li><a href="#">アカウント情報</a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="right_containar" id="page">
+	</div>
+</div>
+<div class="footer">
+</div>
+
 </body>
 </html>

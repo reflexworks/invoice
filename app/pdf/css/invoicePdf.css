@@ -1,0 +1,137 @@
+#pageA4 {
+	pagesize:A4;
+	orientation:portrait;
+	left:15;right:15;top:15;bottom:15;
+	linecolor:#A9C3E3;
+}
+
+#widths {
+	widths:5,5,46,8,13,18,5;
+}
+
+#borderTop {
+	left:false;right:false;top:true;bottom:false;
+	space:5;
+}
+
+#titleLeft {
+	left:true;right:false;top:true;bottom:false;
+}
+
+#titleRight {
+	left:false;right:true;top:true;bottom:false;
+}
+
+#spaceLeft {
+	left:true;right:false;top:false;bottom:false;
+}
+
+#spaceRight {
+	left:false;right:true;top:false;bottom:false;
+}
+
+#borderBottom {
+	left:true;right:true;top:false;bottom:true;
+}
+
+#title {
+	size:20;
+}
+
+#subTitle {
+	space:3;
+}
+
+#companyTd {
+	leading:12;
+	offsety:4;
+}
+
+.fontsize15 {
+	size:15;
+}
+
+.fontsize10 {
+	size:10;
+}
+
+.fontsize11 {
+	size:11;
+}
+
+.fontsize15U {
+	size:15;
+	style:underline;
+}
+
+.fontsize12U {
+	size:12;
+	style:underline;
+}
+
+.marginBottom5 {
+	offsety:5;
+}
+
+.marginBottom22 {
+	offsety:22;
+}
+
+.tableTd {
+	left:true;right:true;top:true;bottom:true;
+	offsety:3;
+}
+
+.tdCenter {
+	left:true;right:true;top:true;bottom:true;
+	offsety:9;
+}
+.tdLeft {
+	left:true;right:true;top:true;bottom:true;
+	offsetx:5;
+	offsety:9;
+}
+
+.tdRight {
+	left:true;right:true;top:true;bottom:true;
+	offsetx:-5;
+	offsety:9;
+}
+
+.td {
+	left:true;right:true;top:true;bottom:true;
+}
+
+#seqno {
+	color:#00408F;
+}
+
+#description {
+	color:#00408F;
+}
+
+#quantity {
+	color:#00408F;
+}
+
+#unitPrice {
+	color:#00408F;
+}
+
+#lineTotal {
+	color:#00408F;
+}
+
+#note{
+	color:#00408F;
+}
+
+#vteclogoImg {
+	plainwidth:80.0;
+	plainheight:36.0;
+}
+
+#stampImg {
+	plainwidth:35.0;
+	plainheight:35.0;
+}

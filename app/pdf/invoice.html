@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<html>
+<head>
+<link rel="stylesheet" href="css/invoicePdf.css" media="all" type="text/css"></link>
+<link rel="stylesheet" href="css/invoiceHtml.css" media="all" type="text/css"></link>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+</head>
+<body id="body" onload="display();" onunload="unload();" oncontextmenu="return false">
+
+<div class="_page" id="pageA4"><!-- 用紙サイズをA4、ページ向きを縦にしています -->
+
+    <table cols="7" id="widths" class="table" >
+    	<!-- タイトル -->
+        <tr>
+            <td id="titleLeft">
+            </td>
+            <td colspan="5" id="borderTop" align="center" height="50">
+                <span id="title">御請求書</span>
+            </td>
+            <td id="titleRight">
+            </td>
+        </tr>
+        
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td colspan="5" align="right" id="invoiceNoTd" class="fontsize10">
+                <div>御請求No : <span id="number" /></div>
+                <div>発行日: <span id="date" /></div>
+                <br />
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+        
+        <!-- 御社名 -->
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td colspan="2" id="subTitle" class="fontsize12">
+                <span id="customer_name"></span>
+                <span>　御中</span>
+            <br />
+            </td>
+	        <!-- 弊社ロゴ -->
+            <td colspan="3" align="right" valign="middle">
+				<img src="images/vtec_logo.png" width="120.0" height="40.0" /> 
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <!-- 弊社名 -->
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td colspan="2" align="left" id="jobTd" class="fontsize12U">
+                <div>件　名：<span id="job" /></div>
+            </td>
+            <td colspan="3" align="right" id="companyTd" class="fontsize10">
+                <div id="my_name"></div>
+                
+                <div>
+                <span>〒</span>
+                <span id="my_zip"></span>
+                <span id="my_address"></span>
+                </div>
+                
+                <div>
+                <span>TEL : </span>
+                <span id="my_telephone"></span>
+                </div>
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <!-- 内容 -->
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td colspan="4" align="left">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <div id="summary">下記の通り御請求申し上げます。</div>
+                <br />
+                <div class="fontsize15U">御請求金額：￥
+                <span id="total" class="fontsize15U"></span>
+                <span class="fontsize15U"> -</span>
+                </div>
+                <br />
+                <br />
+            </td>
+	        <!-- 弊社印鑑 -->
+            <td colspan="1" align="right" id="stamp">
+			<img src="images/stamp.jpg" width="100.0" height="100.0" id="stampImg" />
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <!-- 内訳タイトル -->
+        <tr>
+            <td id="spaceLeft" class="space">
+            </td>
+            <td align="center" class="tableTd" id="seqnoTd" bgcolor="#B5D0F1">
+                <span>No</span>
+            </td>
+            <td align="center" class="tableTd" id="descriptionTd" bgcolor="#B5D0F1">
+                <span>品名</span>
+            </td>
+            <td align="center" class="tableTd" id="quantityTd" bgcolor="#B5D0F1">
+                <span>数量</span>
+            </td>
+            <td align="center" class="tableTd" id="unitPriceTd" bgcolor="#B5D0F1">
+                <span>単価(円)</span>
+            </td>
+            <td align="center" class="tableTd" id="lineTotalTd" bgcolor="#B5D0F1">
+                <span>金額(円)</span>
+            </td>
+            <td id="spaceRight" class="space">
+            </td>
+        </tr>
+
+        <!-- 内訳内容 -->
+        <div class="_for" value="item"> <!-- 繰り返し処理　ここから -->
+        <tr class="_for" value="item">
+            <td id="spaceLeft">
+            </td>
+            <td align="center" height="25" class="tdCenter">
+                <span id="seq-i"></span>
+            </td>
+            <td align="left" height="25" class="tdLeft">
+                <span id="name-i"></span>　
+                <span id="description-i"></span>
+            </td>
+            <td align="center" height="25" class="tdCenter">
+                <span id="quantity-i"></span>
+            </td>
+            <td align="right" height="25" class="tdRight">
+                <span></span>
+                <span id="unit_price-i"></span>
+            </td>
+            <td align="right" height="25" class="tdRight">
+                <span></span>
+                <span id="line_total-i"></span>
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+        </div>    <!-- 繰り返し処理　ここまで -->
+
+
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td height="5" colspan="5" class="td">
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td colspan="3" align="right" height="25" class="tdRight">
+                <span id="subtotal0"></span>
+            </td>
+            <td colspan="2" align="right" height="25" class="tdRight">
+                ￥<span id="subtotal"></span>-
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td colspan="3" align="right" height="25" class="tdRight">
+                <span id="salestax0">消費税</span>
+            </td>
+            <td colspan="2" align="right" height="25" class="tdRight">
+                ￥<span id="salestax"></span>-
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td colspan="3" align="right" height="25" class="tdRight">
+                <span id="totalTd">御請求金額</span>
+            </td>
+            <td colspan="2" align="right" height="25" class="tdRight">
+                ￥<span id="total"></span>-
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td height="25" colspan="5" >
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <tr>
+            <td id="spaceLeft">
+            </td>
+            <td  colspan="5" align="left" height="25" class="tdLeft" id="noteT" bgcolor="#B5D0F1">
+            <span id="note0">備考</span>
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <tr class="fontsize10">
+            <td id="spaceLeft">
+            </td>
+            <td  colspan="5" align="left" height="25" class="tdLeft">
+            <div id="content"></div>
+            <br />
+            </td>
+            <td id="spaceRight">
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="7" height="25" id="borderBottom">
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+</html>
