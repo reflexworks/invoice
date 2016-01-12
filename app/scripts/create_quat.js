@@ -1,25 +1,41 @@
 var _salestax = 0.1;
 $(function(){
 
+	// カレンダー表示
+	$('#date').datepicker(_datepicker_option).val(_common.getToday());
+	
+	// テンプレート読込表示
+	$('[data-id="load_template"]').click(function(){
+		_$load_template_target = $('#create_quat_form');
+	});
+
+	// 顧客一覧表示
+	$('#customer_list_btn').click(function(){
+		// 選択した顧客名を入力する箇所を指定
+		_$customer_input_target = $('#customer_name');
+	});
+
 	// 消費税を加えるか加えないか
 	$('#is_salestax').change(function(){
 		
 		var isFlg = $(this).prop('checked');
-		var subtotal = $('#subtotal').html() ? parseInt($('#subtotal').html()) : 0;
+		var subtotal = $('#subtotal').html() ? parseInt($('#subtotal').attr('data-subtotal')) : 0;
 		if (isFlg) {
 			salestax = subtotal * _salestax;
 			salestax = Math.floor(salestax);
 		} else {
 			salestax = 0;
 		}
-		$('#salestax').html(salestax);
-		$('#total').html(subtotal + salestax);
+		$('#salestax').html(_common.priceSeparator(salestax));
+		$('#total').html(_common.priceSeparator((subtotal + salestax)));
 	});
 
-	// 明細を一行追加
+	// 初期設定で明細を5行追加
+	addRecode(5);
+	// 明細を1行追加
 	$('#add_recode').click(function(){
-		addRecode();
-	}).click();
+		addRecode(1);
+	});
 
 	// プレビュー実行
 	$('[data-id="preview"]').click(function(){
@@ -58,19 +74,23 @@ $(function(){
 });
 
 // 明細を一行追加する
-function addRecode(){
+function addRecode(int){
 	var temp = function(){
 		return '' + 
 		'<tr>' +
-			'<td><input type="text" class="form-control" data-id="name" /></td>' +
-			'<td><input type="text" class="form-control" data-id="description" /></td>' +
-			'<td><input type="text" class="form-control" data-id="quantity" value="1" /></td>' +
-			'<td><input type="text" class="form-control" data-id="unit_price" /></td>' +
-			'<td class="disp"><span data-id="line_total">0</span></td>' +
+			'<td class="name"><input type="text" class="form-control" data-id="name" /></td>' +
+			'<td class="description"><input type="text" class="form-control" data-id="description" /></td>' +
+			'<td class="quantity"><input type="text" class="form-control" data-id="quantity" value="1" /></td>' +
+			'<td class="unit_price"><input type="text" class="form-control" data-id="unit_price" /></td>' +
+			'<td class="disp line_total"><span data-id="line_total">0</span></td>' +
 			'<td><button class="btn" data-id="delete">削除</button></td>' +
 		'</tr>';
 	};
-	$('#recode_list').find('tbody').append(temp())
+	var array = [];
+	for (var i = 0, ii = int; i < ii; ++i) {
+		array.push(temp());
+	}
+	$('#recode_list').find('tbody').append(array.join(''))
 		.find('input[type="text"]').off('change').change(function(){
 			var $this = $(this);
 			var $tr = $this.parent().parent();
@@ -98,7 +118,7 @@ function changeLineTotal($tr, quantity, unit_price) {
 	if (!unit_price) unit_price = $tr.find('[data-id="unit_price"]').val();
 	quantity = quantity ? parseInt(quantity) : 0;
 	unit_price = unit_price ? parseInt(unit_price) : 0;
-	$tr.find('[data-id="line_total"]').html((unit_price * quantity));
+	$tr.find('[data-id="line_total"]').html(_common.priceSeparator((unit_price * quantity))).attr('data-price', (unit_price * quantity));
 
 	changeTotal();
 
@@ -110,15 +130,15 @@ function changeTotal() {
 	var isSalestax = $('#is_salestax').prop('checked');
 	var subtotal = 0;
 	for (var i = 0, ii = $line_total_list.length; i < ii; ++i) {
-		var line_total = $line_total_list.eq(i).html();
+		var line_total = $line_total_list.eq(i).attr('data-price');
 		if (line_total && line_total !== '') {
 			subtotal = subtotal + parseInt(line_total);
 		}
 	}
-	var salestax = subtotal * _salestax;
-	$('#subtotal').html(subtotal);
-	$('#salestax').html((isSalestax ? Math.floor(salestax) : 0));
-	$('#total').html(subtotal + parseInt($('#salestax').html()));
+	var salestax = (isSalestax ? Math.floor(subtotal * _salestax) : 0);
+	$('#subtotal').html(_common.priceSeparator(subtotal)).attr('data-subtotal', subtotal);
+	$('#salestax').html(_common.priceSeparator(salestax));
+	$('#total').html(_common.priceSeparator((subtotal + salestax)));
 }
 
 function getData(){
@@ -143,16 +163,22 @@ function getData(){
 	obj.feed.entry[0].content = {'______text' : $('#content').val()};
 
 	var $recodes = $('#recode_list').find('tbody').find('tr');
+	var num = 1;
 	for (var i = 0, ii = $recodes.length; i < ii; ++i) {
 		var $recode = $recodes.eq(i);
 		var recode = {};
-		recode.seq = i + 1;
-		recode.name = $recode.find('[data-id="name"]').val();
-		recode.description = $recode.find('[data-id="description"]').val();
-		recode.quantity = $recode.find('[data-id="quantity"]').val();
-		recode.unit_price = $recode.find('[data-id="unit_price"]').val();
-		recode.line_total = $recode.find('[data-id="line_total"]').html();
-		obj.feed.entry.push({'recode': recode});
+		var quantity = $recode.find('[data-id="quantity"]').val();
+		var unit_price = $recode.find('[data-id="unit_price"]').val();
+		if (quantity && unit_price) {
+			recode.seq = num;
+			recode.name = $recode.find('[data-id="name"]').val();
+			recode.description = $recode.find('[data-id="description"]').val();
+			recode.quantity = quantity;
+			recode.unit_price = unit_price;
+			recode.line_total = $recode.find('[data-id="line_total"]').html();
+			obj.feed.entry.push({'recode': recode});
+			num++;
+		}
 	}
 	
 	return obj;

@@ -102,6 +102,15 @@ ul {
 }
 .page .page_menu {
 	float: right;
+	margin-top: 5px;
+}
+.page .page_menu .page_menu_list {
+	float: left;
+	margin-left: 5px;
+}
+.page .page_menu .page_menu_btn {
+	float: left;
+	margin-left: 5px;
 }
 
 /* form
@@ -117,13 +126,20 @@ ul {
 .form .form_content_title {
 	float: left;
 	width: 200px;
+}
+.form .form_content_title span{
+	float: left;
+	display: block;
 	padding: 7px 10px;
-	margin-right: 5px;
+}
+.form .form_content_title button {
+	float: right;
+	margin-top: 1px;
+	border: 0px;
 }
 .form .form_content_value {
 	float: left;
 }
-
 .form .form_content_title_lg {
 	width: 100%;
 	padding: 7px 10px;
@@ -146,12 +162,40 @@ ul {
 	
 	font-weight: normal;
 }
-
+.form table tbody td.name {
+	width: 200px;
+}
+.form table tbody td.description {
+	width: 200px;
+}
+.form table tbody td.quantity {
+	width: 50px;
+}
+.form table tbody td.unit_price {
+	width: 90px;
+}
+.form table tbody td.line_total {
+	width: 110px;
+	text-align: right;
+	padding-right: 5px;
+}
 .form table tbody td.disp{
 	border-bottom: 1px solid #e0e0e0;
 }
 .form table tbody td input[type="text"] {
 	padding: 2px 7px;
+}
+.form table tfoot td.subtotal {
+	text-align: right;
+	padding-right: 5px;
+}
+.form table tfoot td.salestax {
+	text-align: right;
+	padding-right: 5px;
+}
+.form table tfoot td.total {
+	text-align: right;
+	padding-right: 5px;
 }
 .form textarea {
 	width: 100%;

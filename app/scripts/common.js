@@ -93,3 +93,25 @@ _common.checkLoginPassword = function(pass) {
 		return false;
 	}
 };
+
+_common.priceSeparator = function(val){
+	return val.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,');
+};
+
+// 今日の日付を取得する
+_common.getToday = function(){
+	//今日の日付データを変数hidukeに格納
+	var hiduke=new Date(); 
+
+	//年・月・日・曜日を取得する
+	var year = hiduke.getFullYear();
+	var month = hiduke.getMonth()+1;
+	var day = hiduke.getDate();
+
+	if (String(month).length === 1) month = '0' + month;
+	if (String(day).length === 1) day = '0' + day;
+
+	return year + '/' + month + '/' + day;
+};
+
+

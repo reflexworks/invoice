@@ -1,14 +1,25 @@
 <div class="page">
 	<h4 class="page_title">見積書作成</h4>
 	<div class="page_menu">
-		<button class="btn btn-sm" data-id="load_template">テンプレート読込</button>
-		<button class="btn btn-sm" data-id="save_template">テンプレート保存</button>
-		<button class="btn btn-sm" data-id="preview">プレビュー</button>
-		<button class="btn btn-sm" data-id="create_quat">保存</button>
-		<button class="btn btn-sm" data-id="download">保存してダウンロード</button>
+		<div class="dropdown page_menu_list">
+			<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<i class="glyphicon glyphicon-menu-hamburger"></i>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="#" data-id="load_template" data-toggle="modal" data-target="#template_road_modal">テンプレート読込</a></li>
+				<li><a href="#" data-id="save_template">テンプレート保存</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#" data-id="download">保存してPDFダウンロード</a></li>
+				<li><a href="#" data-id="send_mail">保存してメール送信</a></li>
+			</ul>
+		</div>
+		<button class="btn btn-sm page_menu_btn" data-id="preview">プレビュー</button>
+		<button class="btn btn-sm page_menu_btn" data-id="create_quat">保存</button>
+		<div style="clear: both;"></div>
 	</div>
 	<div style="clear: both;"></div>
-	<form class="form">
+	<form class="form" id="create_quat_form">
 		<div class="form-group">
 			<div class="form_content_title">
 				<span>見積書No</span>
@@ -22,7 +33,7 @@
 			<div class="form_content_title">
 				<span>見積日</span>
 			</div>
-			<div class="form_content_value">
+			<div class="form_content_value" style="width: 120px;">
 				<input type="text" class="form-control" id="date" />
 			</div>
 			<div style="clear: both;"></div>
@@ -30,8 +41,9 @@
 		<div class="form-group">
 			<div class="form_content_title">
 				<span>顧客名</span>
+				<button class="btn btn-default" data-toggle="modal" data-target="#customer_list_modal" id="customer_list_btn"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
 			</div>
-			<div class="form_content_value">
+			<div class="form_content_value" style="width: 500px;">
 				<input type="text" class="form-control" id="customer_name" />
 			</div>
 			<div style="clear: both;"></div>
@@ -40,7 +52,7 @@
 			<div class="form_content_title">
 				<span>件名</span>
 			</div>
-			<div class="form_content_value">
+			<div class="form_content_value"style="width: 500px;">
 				<input type="text" class="form-control" id="job" />
 			</div>
 			<div style="clear: both;"></div>
@@ -75,19 +87,19 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="3"><button class="btn" id="add_recode">明細追加</button></td>
-							<td>小計（¥）</td>
-							<td><span id="subtotal">0</span></td>
+							<td colspan="2"><button class="btn" id="add_recode">明細追加</button></td>
+							<td colspan="2" class="subtotal">小計（¥）</td>
+							<td class="subtotal"><span id="subtotal">0</span></td>
 							<td rowspan="3"></td>
 						</tr>
 						<tr>
-							<td colspan="3" rowspan="2"></td>
-							<td><input type="checkbox" id="is_salestax" checked="checked" />消費税（¥）</td>
-							<td><span id="salestax">0</span></td>
+							<td colspan="2" rowspan="2"></td>
+							<td colspan="2" class="salestax"><input type="checkbox" id="is_salestax" checked="checked" />消費税（¥）</td>
+							<td class="salestax"><span id="salestax">0</span></td>
 						</tr>
 						<tr>
-							<td>総額（¥）</td>
-							<td><span id="total">0</span></td>
+							<td colspan="2" class="total">総額（¥）</td>
+							<td class="total"><span id="total">0</span></td>
 						</tr>
 					</tfoot>
 				</table>
@@ -104,11 +116,22 @@
 		</div>
 	</form>
 	<div class="page_menu">
-		<button class="btn btn-sm" data-id="load_template">テンプレート読込</button>
-		<button class="btn btn-sm" data-id="save_template">テンプレート保存</button>
-		<button class="btn btn-sm" data-id="preview">プレビュー</button>
-		<button class="btn btn-sm" data-id="create_quat">保存</button>
-		<button class="btn btn-sm" data-id="download">保存してダウンロード</button>
+		<div class="dropup page_menu_list">
+			<button class="btn btn-sm dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<i class="glyphicon glyphicon-menu-hamburger"></i>
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+				<li><a href="#" data-id="load_template" data-toggle="modal" data-target="#template_road_modal">テンプレート読込</a></li>
+				<li><a href="#" data-id="save_template">テンプレート保存</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="#" data-id="download">保存してPDFダウンロード</a></li>
+				<li><a href="#" data-id="send_mail">保存してメール送信</a></li>
+			</ul>
+		</div>
+		<button class="btn btn-sm page_menu_btn" data-id="preview">プレビュー</button>
+		<button class="btn btn-sm page_menu_btn" data-id="create_quat">保存</button>
+		<div style="clear: both;"></div>
 	</div>
 </div>
 
