@@ -6,6 +6,7 @@ $(function(){
 	
 	// テンプレート読込表示
 	$('[data-id="load_template"]').click(function(){
+		_load_template_type = 'quat';
 		_$load_template_target = $('#create_quat_form');
 	});
 

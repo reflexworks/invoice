@@ -1,6 +1,7 @@
 var _uid;
 var _$customer_input_target;
 var _$load_template_target;
+var _load_template_type;
 var _datepicker_option = {
 	format: "yyyy/mm/dd",
 	language: 'ja',
@@ -19,6 +20,7 @@ $(function(){
 	// テンプレート一覧から選択
 	$('#template_road_modal_ok').click(function(){
 		_$load_template_target;
+		var type = _load_template_type;
 		$('#template_road_modal').modal('hide');
 		return false;
 	});
