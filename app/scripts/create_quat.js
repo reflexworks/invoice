@@ -1,4 +1,5 @@
 var _salestax = 0.1;
+var _transaction_type = 'quat';
 $(function(){
 
 	// カレンダー表示
@@ -6,14 +7,14 @@ $(function(){
 	
 	// テンプレート読込表示
 	$('[data-id="load_template"]').click(function(){
-		_load_template_type = 'quat';
+		_load_template_type = _transaction_type;
 		_$load_template_target = $('#create_quat_form');
 		getTemplateList();
 	});
 
 	// テンプレート保存表示
 	$('[data-id="save_template"]').click(function(){
-		_save_template_type = 'quat';
+		_save_template_type = _transaction_type;
 		_save_template_data = getTemplateData();
 		viewTemplateData();
 	});
@@ -26,6 +27,32 @@ $(function(){
 
 	// 自社情報を表示する
 	setMyCompany();
+	
+	// 自社情報をマスタに登録する
+	$('#create_my_company').click(function(){
+		if ($('#my_name').val() && $('#my_name').val() !== '') {
+			var postData = {'feed': {'entry': [{
+				'title': 'default',
+				'my_company': {
+					'my_name': $('#my_name').val(),
+					'my_zip': $('#my_zip').val(),
+					'my_address': $('#my_address').val(),
+					'my_telephone': $('#my_telephone').val(),
+				}
+			}]}};
+			$.restModule.post({
+				'url': '/d/' + _uid + '/mycompany',
+				'data': postData
+			}).then(function(res){
+				setMyCompany();
+				_common.noticeSuccess('自社情報登録完了');
+			}, function(res){
+				_common.noticeError('自社情報初期登録失敗');
+			});
+		} else {
+			alert('自社名を入力してください');
+		}
+	});
 
 	// 自社情報編集
 	$('#show_my_company_input_area').click(function(){
@@ -36,6 +63,9 @@ $(function(){
 		$('[data-id="my_company_input_area"]').hide();
 		$('#display_my_company_area').show();
 	});
+
+	// 消費税率表示
+	$('#salestax_percent').html(_salestax * 100);
 
 	// 消費税を加えるか加えないか
 	$('#is_salestax').change(function(){
@@ -82,7 +112,7 @@ $(function(){
 	$(window).on('resize', {target: '#preview_modal'}, _common.resizePreviewModal).resize();
 
 	// 見積書作成実行
-	$('[data-id="create_quat"]').click(function(){
+	$('[data-id="create_transaction"]').click(function(){
 		var postData = getData();
 		$.restModule.post({
 			'url': '/s/save_transaction',
@@ -93,7 +123,7 @@ $(function(){
 			_common.noticeError('見積書保存失敗');
 		});
 	});
-
+	
 });
 
 // 明細を一行追加する
@@ -105,7 +135,7 @@ function addRecode(int){
 			'<td class="description"><input type="text" class="form-control" data-id="description" /></td>' +
 			'<td class="quantity"><input type="text" class="form-control" data-id="quantity" value="1" /></td>' +
 			'<td class="unit_price"><input type="text" class="form-control" data-id="unit_price" /></td>' +
-			'<td class="disp line_total"><span data-id="line_total">0</span></td>' +
+			'<td class="disp line_total"><span data-id="line_total">¥0</span></td>' +
 			'<td><button class="btn" data-id="delete">削除</button></td>' +
 		'</tr>';
 	};
@@ -174,7 +204,7 @@ function getData(){
 	obj.feed.entry[0].customer = getCustomerData();
 	obj.feed.entry[0].my_company = getMyCompanyData();
 	obj.feed.entry[0].content = getContentData();
-	obj.feed.entry[0].subtitle = getIsSalestax();
+	obj.feed.entry[0].master = getMasterData();
 
 	var $recodes = $('#recode_list').find('tbody').find('tr');
 	var num = 1;
@@ -204,7 +234,7 @@ function getTemplateData(){
 	obj.feed.entry[0].customer = getCustomerData();
 	obj.feed.entry[0].my_company = getMyCompanyData();
 	obj.feed.entry[0].content = getContentData();
-	obj.feed.entry[0].subtitle = getIsSalestax();
+	obj.feed.entry[0].master = getMasterData();
 
 	var $recodes = $('#recode_list').find('tbody').find('tr');
 	for (var i = 0, ii = $recodes.length; i < ii; ++i) {
@@ -221,8 +251,10 @@ function getTransactionData(){
 	transaction.date = $('#date').val();
 	transaction.job = $('#job').val();
 	transaction.subtotal = $('#subtotal').html();
-	transaction.salestax = _salestax;
+	transaction.salestax = $('#salestax').html();
 	transaction.total = $('#total').html();
+	transaction.is_tax = getIsSalestax();
+	transaction.type = _transaction_type;
 	return transaction;
 }
 function getCustomerData(){
@@ -254,36 +286,52 @@ function getRecodeData($recode){
 }
 
 function setMyCompany(){
+
+	// 自社情報編集表示
+	$('#show_my_company_input_area').show();
+	$('#hide_my_company_input_area').show().click();
+	$('#my_company_list_btn').show();
+	// 自社情報登録ボタン非表示
+	$('#create_my_company').hide();
+
 	$.restModule.get({
 		'url': '/d/'+ _uid +'/mycompany?f&title=default'
 	}).then(function(res){
-		var entry = res.feed.entry[0];
-		var my_name = entry.my_company.my_name;
-		var my_zip = entry.my_company.my_zip;
-		var my_address = entry.my_company.my_address;
-		var my_telephone = entry.my_company.my_telephone;
-		var array = ['', ' 〒', '', ' ', '', ' Tel: ', ''];
-		array[0] = my_name;
-		array[2] = my_zip;
-		array[4] = my_address;
-		array[6] = my_telephone;
-		$('#display_my_company').val(array.join(''));
-		$('#my_name').val(my_name).change(function(){
-			array[0] = $(this).val();
+		if (res && res.feed) {
+			var entry = res.feed.entry[0];
+			var my_name = entry.my_company.my_name;
+			var my_zip = entry.my_company.my_zip;
+			var my_address = entry.my_company.my_address;
+			var my_telephone = entry.my_company.my_telephone;
+			var array = ['', ' 〒', '', ' ', '', ' Tel: ', ''];
+			array[0] = my_name;
+			array[2] = my_zip;
+			array[4] = my_address;
+			array[6] = my_telephone;
 			$('#display_my_company').val(array.join(''));
-		});
-		$('#my_zip').val(my_zip).change(function(){
-			array[2] = $(this).val();
-			$('#display_my_company').val(array.join(''));
-		});;
-		$('#my_address').val(my_address).change(function(){
-			array[4] = $(this).val();
-			$('#display_my_company').val(array.join(''));
-		});;
-		$('#my_telephone').val(my_telephone).change(function(){
-			array[6] = $(this).val();
-			$('#display_my_company').val(array.join(''));
-		});;
+			$('#my_name').val(my_name).change(function(){
+				array[0] = $(this).val();
+				$('#display_my_company').val(array.join(''));
+			});
+			$('#my_zip').val(my_zip).change(function(){
+				array[2] = $(this).val();
+				$('#display_my_company').val(array.join(''));
+			});
+			$('#my_address').val(my_address).change(function(){
+				array[4] = $(this).val();
+				$('#display_my_company').val(array.join(''));
+			});
+			$('#my_telephone').val(my_telephone).change(function(){
+				array[6] = $(this).val();
+				$('#display_my_company').val(array.join(''));
+			});
+		} else {
+			// 自社情報編集表示
+			$('#show_my_company_input_area').click().hide();
+			$('#hide_my_company_input_area, #my_company_list_btn').hide();
+			// 自社情報登録ボタン表示
+			$('#create_my_company').show();
+		}
 	}, function(res){
 		_common.noticeError('自社情報取得失敗');
 	});
@@ -291,4 +339,10 @@ function setMyCompany(){
 
 function getIsSalestax(){
 	return $('#is_salestax').prop('checked') === true ? '税込':'税抜';
+}
+
+function getMasterData() {
+	var master = {};
+	master.tax_rate = '' + _salestax;
+	return master;
 }

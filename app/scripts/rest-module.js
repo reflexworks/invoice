@@ -33,7 +33,11 @@
 				defer.resolve(data, status, xhr);
 			},
 			error: function(jqXHR, textStatus, errorThrow){
-				defer.reject(jqXHR, textStatus, errorThrow);
+				if (jqXHR.status === (401 || 403)) {
+					location.href = 'login.html';
+				} else {
+					defer.reject(jqXHR, textStatus, errorThrow);
+				}
 			},
 			complete: function(){
 				_doFinal();
@@ -55,7 +59,11 @@
 				defer.resolve(data, status, xhr);
 			},
 			error: function(jqXHR, textStatus, errorThrow){
-				defer.reject(jqXHR, textStatus, errorThrow);
+				if (jqXHR.status === (401 || 403)) {
+					location.href = 'login.html';
+				} else {
+					defer.reject(jqXHR, textStatus, errorThrow);
+				}
 			},
 			complete: function(){
 				_doFinal();
@@ -77,7 +85,11 @@
 				defer.resolve(data, status, xhr);
 			},
 			error: function(jqXHR, textStatus, errorThrow){
-				defer.reject(jqXHR, textStatus, errorThrow);
+				if (jqXHR.status === (401 || 403)) {
+					location.href = 'login.html';
+				} else {
+					defer.reject(jqXHR, textStatus, errorThrow);
+				}
 			},
 			complete: function(){
 				_doFinal();
@@ -97,7 +109,11 @@
 				defer.resolve(data, status, xhr);
 			},
 			error: function(jqXHR, textStatus, errorThrow){
-				defer.reject(jqXHR, textStatus, errorThrow);
+				if (jqXHR.status === (401 || 403)) {
+					location.href = 'login.html';
+				} else {
+					defer.reject(jqXHR, textStatus, errorThrow);
+				}
 			},
 			complete: function(){
 				_doFinal();

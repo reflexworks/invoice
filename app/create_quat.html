@@ -15,7 +15,7 @@
 			</ul>
 		</div>
 		<button class="btn btn-sm page_menu_btn" data-id="preview">プレビュー</button>
-		<button class="btn btn-sm page_menu_btn" data-id="create_quat">作成</button>
+		<button class="btn btn-sm page_menu_btn" data-id="create_transaction">作成</button>
 		<div style="clear: both;"></div>
 	</div>
 	<div style="clear: both;"></div>
@@ -77,13 +77,14 @@
 					<button class="btn btn-default" id="hide_my_company_input_area"><i class="glyphicon glyphicon-triangle-top"></i></button>
 				</div>
 				<div class="form_content_value" style="width: 500px;">
+					<button class="btn btn-default" id="create_my_company" style="display: none;">マスタ登録</button>
 				</div>
 				<div style="clear: both;"></div>
 			</div>
 			<div class="form-group my_company_input_area" data-id="my_company_input_area">
 				<div class="form_content_title">
 					<span>社名</span>
-					<button class="btn btn-default" data-toggle="modal" data-target="#customer_list_modal" id="customer_list_btn"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+					<button class="btn btn-default" data-toggle="modal" data-target="#my_company_list_modal" id="my_company_list_btn"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
 				</div>
 				<div class="form_content_value" style="width: 500px;">
 					<input type="text" class="form-control" id="my_name" />
@@ -121,9 +122,6 @@
 		<br />
 		<div class="basic_area">
 			<div class="form-group">
-				<div class="form_content_title_lg">
-					<span>明細</span>
-				</div>
 				<div class="form_content_value_lg">
 					<table id="recode_list">
 						<thead>
@@ -151,18 +149,18 @@
 						<tfoot>
 							<tr>
 								<td colspan="2"><button class="btn" id="add_recode">明細追加</button></td>
-								<td colspan="2" class="subtotal">小計（¥）</td>
-								<td class="subtotal"><span id="subtotal">0</span></td>
+								<td colspan="2" class="subtotal">小計</td>
+								<td class="subtotal"><span id="subtotal">¥0</span></td>
 								<td rowspan="3"></td>
 							</tr>
 							<tr>
 								<td colspan="2" rowspan="2"></td>
-								<td colspan="2" class="salestax"><input type="checkbox" id="is_salestax" checked="checked" />消費税（¥）</td>
-								<td class="salestax"><span id="salestax">0</span></td>
+								<td colspan="2" class="salestax"><input type="checkbox" id="is_salestax" checked="checked" />消費税（<span id="salestax_percent"></span>%）</td>
+								<td class="salestax"><span id="salestax">¥0</span></td>
 							</tr>
 							<tr>
-								<td colspan="2" class="total">総額（¥）</td>
-								<td class="total"><span id="total">0</span></td>
+								<td colspan="2" class="total">総額</td>
+								<td class="total"><span id="total">¥0</span></td>
 							</tr>
 						</tfoot>
 					</table>
@@ -187,14 +185,14 @@
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 				<li><a href="#" data-id="load_template" data-toggle="modal" data-target="#template_road_modal">テンプレート読込</a></li>
-				<li><a href="#" data-id="save_template">テンプレート保存</a></li>
+				<li><a href="#" data-id="save_template" data-toggle="modal" data-target="#template_save_modal">テンプレート保存</a></li>
 				<li role="separator" class="divider"></li>
 				<li><a href="#" data-id="download">作成してPDFダウンロード</a></li>
 				<li><a href="#" data-id="send_mail">作成してメール送信</a></li>
 			</ul>
 		</div>
 		<button class="btn btn-sm page_menu_btn" data-id="preview">プレビュー</button>
-		<button class="btn btn-sm page_menu_btn" data-id="create_quat">作成</button>
+		<button class="btn btn-sm page_menu_btn" data-id="create_transaction">作成</button>
 		<div style="clear: both;"></div>
 	</div>
 </div>

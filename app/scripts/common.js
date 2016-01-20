@@ -92,7 +92,7 @@ _common.checkLoginPassword = function(pass) {
 };
 
 _common.priceSeparator = function(val){
-	return val.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,');
+	return '¥' + val.toString().replace(/(\d)(?=(\d{3})+$)/g , '$1,');
 };
 
 // 今日の日付を取得する
@@ -148,4 +148,9 @@ _common.noticeError = function(mes){
 		}
 	}, 7000);
 
+};
+
+_common.viewTransactionData = function($target, data){
+	var feed = data.feed;
+	
 };

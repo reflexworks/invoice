@@ -26,17 +26,6 @@ $(function(){
 	actionTemplateRoadModal();
 	actionCustomerListModal();
 
-	return false;
-
-	$.restModule.get({
-		'url': '/s/init_admin'
-	}).then(function(res){
-		console.log(res)
-	}, function(res){
-		console.log(res)
-	});
-
-
 });
 
 function postMyCompany(){
@@ -107,7 +96,8 @@ function actionTemplateSaveModal(){
 			postData.feed.entry[0].template = {};
 			postData.feed.entry[0].template.template_name = title;
 			postData.feed.entry[0].template.template_type = type;
-			postData.feed.entry[0].template.master_my_company = $('#template_save_is_my_company').prop('checked');
+			postData.feed.entry[0].template.master_my_company = $('#template_save_is_my_company_master').prop('checked');
+			postData.feed.entry[0].template.master_tax_rate = $('#template_save_is_salestax_master').prop('checked');
 			postData.feed.entry[0].template.template_recode_size = postData.feed.entry.length - 1;
 			$.restModule.post({
 				'url': '/s/save_template',
@@ -122,7 +112,7 @@ function actionTemplateSaveModal(){
 		return false;
 	});
 
-	$('#template_save_is_my_company').change(function(){
+	$('#template_save_is_my_company_master').change(function(){
 		var is = $(this).prop('checked');
 		if (is) {
 			$('#template_save_my_company_area').find('.form_content_value').addClass('none');
@@ -161,6 +151,15 @@ function actionTemplateSaveModal(){
 		$('#template_save_recode_list_area').hide();
 	});
 	
+	$('#template_save_is_salestax_master').change(function(){
+		var is = $(this).prop('checked');
+		if (is) {
+			$('#template_save_salestax_percent').addClass('none');
+		} else {
+			$('#template_save_salestax_percent').removeClass('none');
+		}
+	});
+	
 }
 
 function viewTemplateData(){
@@ -170,6 +169,12 @@ function viewTemplateData(){
 	$('#template_save_date').html(transaction.date ? transaction.date : '<span>{入力なし}</span>');
 	$('#template_save_job').html(transaction.job ? transaction.job : '<span>{入力なし}</span>');
 	
+	var isSalestax = transaction.is_tax;
+	$('#template_save_is_salestax').html(isSalestax);
+
+	var master = data[0].master;
+	$('#template_save_salestax_percent').html((master.tax_rate * 100)+'%');
+
 	var customer_name = data[0].customer.customer_name;
 	$('#template_save_customer_name').html(customer_name ? customer_name : '<span>{入力なし}</span>');
 
@@ -182,8 +187,7 @@ function viewTemplateData(){
 	var content = data[0].content.______text;
 	$('#template_save_content').html(content ? content : '<span>{入力なし}</span>');
 	
-	var isSalestax = data[0].subtitle;
-	$('#template_save_recode_list_length').html((data.length - 1) + '件 (' + isSalestax + ')');
+	$('#template_save_recode_list_length').html((data.length - 1) + '件');
 
 	var array = [];
 	for (var i = 1, ii = data.length; i < ii; ++i) {
@@ -213,7 +217,9 @@ function getTemplateList(){
 	$.restModule.get({
 		'url': '/d/' + _uid + '/template?f&template.template_type=' + type
 	}).then(function(res){
-		setTemplateList(res);
+		if (res) {
+			setTemplateList(res);
+		}
 	}, function(res){
 		_common.noticeError('テンプレート一覧取得失敗');
 	});

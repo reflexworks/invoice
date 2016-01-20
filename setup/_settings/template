@@ -15,6 +15,8 @@ transaction
  subtotal
  salestax
  total
+ is_tax
+ type
 my_company
  my_name
  my_zip
@@ -34,6 +36,9 @@ template
  template_type
  template_recode_size(int)
  master_my_company(Boolean)
+ master_tax_rate(Boolean)
+master
+ tax_rate
 </content>
 </entry>
 </feed>

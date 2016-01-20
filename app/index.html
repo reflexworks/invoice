@@ -89,7 +89,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td><a href="#" id="template_road_modal_ok">◯◯◯◯◯◯◯</a></td>
+						<td>テンプレートがまだ登録されていません</td>
 					</tr>
 				</tbody>
 			</table>
@@ -111,6 +111,7 @@
 			</div>
 			<div class="modal-body">
 				<p>現在の入力内容をテンプレートとして保存します。<br />保存したテンプレートを読み込むことで次回から入力補完することができます。</p>
+				<p>「マスタ情報を優先する」にチェックをすると、テンプレートを読み込む際にその情報はマスタ情報を参照し補完します。</p>
 				<div class="well">
 					テンプレート名
 					<input type="text" class="form-control" id="template_save_input" />
@@ -159,7 +160,7 @@
 							</div>
 							<div class="form_content_value checkbox">
 								<label>
-									<input type="checkbox" checked="checked" id="template_save_is_my_company" /> 自社情報はマスタから補完する
+									<input type="checkbox" checked="checked" id="template_save_is_my_company_master" /> マスタ情報を優先する
 								</label>
 							</div>
 							<div style="clear: both;"></div>
@@ -224,6 +225,27 @@
 									</thead>
 									<tbody></tbody>
 								</table>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>消費税</span>
+							</div>
+							<div class="form_content_value">
+								<span id="template_save_is_salestax"></span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>消費税率</span>
+							</div>
+							<div class="form_content_value checkbox">
+								<span style="display: inline;" class="none" id="template_save_salestax_percent"></span>
+								<label>
+									<input type="checkbox" checked="checked" id="template_save_is_salestax_master" /> マスタ情報を優先する
+								</label>
 							</div>
 							<div style="clear: both;"></div>
 						</div>
