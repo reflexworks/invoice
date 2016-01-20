@@ -12,9 +12,6 @@ _common.isLogin = function(moveLoginPageFlg) {
 	}, function(){
 		if (moveLoginPageFlg) {
 			location.href = 'login.html';
-		} else {
-			$('#login, #registration').show();
-			$('#logout, #user_top').hide();
 		}
 		defer.resolve(false);
 	})
@@ -52,7 +49,7 @@ _common.getUid = function(moveLoginPageFlg){
 			defer.reject(null);
 		}
 	}, function(jqXHR, textStatus, errorThrow){
-		if (jqXHR.status === 401 && moveLoginPageFlg) {
+		if (jqXHR.status === (401 || 403) && moveLoginPageFlg) {
 			location.href = 'login.html';
 		} else {
 			defer.reject(jqXHR);
@@ -114,4 +111,41 @@ _common.getToday = function(){
 	return year + '/' + month + '/' + day;
 };
 
+_common.resizePreviewModal = function(event){
+	var $target = $(event.data.target);
+	var window_hei = $(window).height() - 15;
+	var preview_modal = $target.outerHeight(true);
+	var modal_header = $target.find('.modal-header').outerHeight(true);
+	var modal_footer = $target.find('.modal-footer').outerHeight(true);
+	$target.find('iframe').height(window_hei - (modal_header + modal_footer ));
+};
 
+_common.noticeCount = 0;
+_common.noticeSuccess = function(mes){
+	_common.noticeCount++;
+	var isCount = _common.noticeCount;
+	_common.isNotice = isCount;
+
+	$('#noticeSuccess, #noticeError').hide();
+	$('#noticeSuccess').show().find('#noticeSuccessMesseage').html(mes).end();
+	setTimeout(function(){
+		if (_common.isNotice === isCount) {
+			$('#noticeSuccess').fadeOut("slow");
+		}
+	}, 7000);
+
+};
+_common.noticeError = function(mes){
+	_common.noticeCount++;
+	var isCount = _common.noticeCount;
+	_common.isNotice = isCount;
+
+	$('#noticeSuccess, #noticeError').hide();
+	$('#noticeError').show().find('#noticeErrorMesseage').html(mes);
+	setTimeout(function(){
+		if (_common.isNotice === isCount) {
+			$('#noticeError').fadeOut("slow");
+		}
+	}, 7000);
+
+};

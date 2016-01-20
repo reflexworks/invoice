@@ -13,7 +13,9 @@ ul {
 	padding: 0px;
 	list-style-type: none;
 }
-
+iframe {
+	border: 0px;
+}
 /* header
 ------------------------*/
 .header {
@@ -93,6 +95,18 @@ ul {
 	width: 700px;
 }
 
+/* preview
+------------------------*/
+.preview_modal .modal-dialog{
+	margin: 5px auto;
+}
+.preview_modal .modal-dialog .modal-body {
+	padding: 0px;
+}
+iframe.preview {
+	width: 100%;
+}
+
 /* page
 ------------------------*/
 .page {
@@ -120,12 +134,12 @@ ul {
 	color: #666;
 	border-bottom: 1.5px solid #eee;
 }
-.form .form-group:nth-child(even) {
-	background: #F9F8F7;
-}
 .form .form_content_title {
 	float: left;
 	width: 200px;
+}
+.form .form_content_title.right span{
+	float: right;
 }
 .form .form_content_title span{
 	float: left;
@@ -136,9 +150,26 @@ ul {
 	float: right;
 	margin-top: 1px;
 	border: 0px;
+	background: none;
 }
 .form .form_content_value {
 	float: left;
+}
+.form .form_content_value span{
+	display: block;
+	padding-top: 7px;
+	padding-left: 7px;
+}
+.form .form_content_value span span{
+	color: #ccc;
+	padding: 0px;
+}
+.none {
+	color: #999;
+	text-decoration: line-through;
+}
+.form .form_content_value label{
+	padding-left: 30px;
 }
 .form .form_content_title_lg {
 	width: 100%;
@@ -162,6 +193,13 @@ ul {
 	
 	font-weight: normal;
 }
+.form table tbody tr.overflow_hidden td{
+	word-break:break-all;
+}
+.form table tbody tr.overflow_hidden td div{
+	width: 100%;
+	overflow:hidden;
+}
 .form table tbody td.name {
 	width: 200px;
 }
@@ -182,6 +220,9 @@ ul {
 .form table tbody td.disp{
 	border-bottom: 1px solid #e0e0e0;
 }
+table tbody td span.text{
+	color: #ccc;
+}
 .form table tbody td input[type="text"] {
 	padding: 2px 7px;
 }
@@ -201,10 +242,45 @@ ul {
 	width: 100%;
 	height: 100px;
 }
+
+/* basic_area
+------------------------*/
+.form .basic_area .form-group:nth-child(even) {
+	background: #F9F8F7;
+}
+
+/* my_company_area
+------------------------*/
+.my_company_area {
+	background: #EDFFF1;
+}
+.my_company_area button {
+	background: #EDFFF1;
+}
+.my_company_area input[disabled]{
+	background: none;
+	border: 0px;
+	cursor: default;
+}
+.my_company_input_area {
+	display: none;
+}
+
 /*	footer
 ------------------------*/
 .copyright {
 	margin-top: 10px;
 	text-align: center;
 	font-size: 10px;
+}
+
+
+/* notice
+------------------------*/
+.notice {
+	display: none;
+	position: fixed;
+	bottom: -10px;
+	right: 10px;
+	min-width: 100px;
 }

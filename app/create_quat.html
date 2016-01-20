@@ -8,111 +8,175 @@
 			</button>
 			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 				<li><a href="#" data-id="load_template" data-toggle="modal" data-target="#template_road_modal">テンプレート読込</a></li>
-				<li><a href="#" data-id="save_template">テンプレート保存</a></li>
+				<li><a href="#" data-id="save_template" data-toggle="modal" data-target="#template_save_modal">テンプレート保存</a></li>
 				<li role="separator" class="divider"></li>
-				<li><a href="#" data-id="download">保存してPDFダウンロード</a></li>
-				<li><a href="#" data-id="send_mail">保存してメール送信</a></li>
+				<li><a href="#" data-id="download">作成してPDFダウンロード</a></li>
+				<li><a href="#" data-id="send_mail">作成してメール送信</a></li>
 			</ul>
 		</div>
 		<button class="btn btn-sm page_menu_btn" data-id="preview">プレビュー</button>
-		<button class="btn btn-sm page_menu_btn" data-id="create_quat">保存</button>
+		<button class="btn btn-sm page_menu_btn" data-id="create_quat">作成</button>
 		<div style="clear: both;"></div>
 	</div>
 	<div style="clear: both;"></div>
 	<form class="form" id="create_quat_form">
-		<div class="form-group">
-			<div class="form_content_title">
-				<span>見積書No</span>
+		<div class="basic_area">
+			<div class="form-group">
+				<div class="form_content_title">
+					<span>見積書No</span>
+				</div>
+				<div class="form_content_value">
+					<input type="text" class="form-control" id="number" />
+				</div>
+				<div style="clear: both;"></div>
 			</div>
-			<div class="form_content_value">
-				<input type="text" class="form-control" id="number" />
+			<div class="form-group">
+				<div class="form_content_title">
+					<span>見積日</span>
+				</div>
+				<div class="form_content_value" style="width: 120px;">
+					<input type="text" class="form-control" id="date" />
+				</div>
+				<div style="clear: both;"></div>
 			</div>
-			<div style="clear: both;"></div>
-		</div>
-		<div class="form-group">
-			<div class="form_content_title">
-				<span>見積日</span>
+			<div class="form-group">
+				<div class="form_content_title">
+					<span>顧客名</span>
+					<button class="btn btn-default" data-toggle="modal" data-target="#customer_list_modal" id="customer_list_btn"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+				</div>
+				<div class="form_content_value" style="width: 500px;">
+					<input type="text" class="form-control" id="customer_name" />
+				</div>
+				<div style="clear: both;"></div>
 			</div>
-			<div class="form_content_value" style="width: 120px;">
-				<input type="text" class="form-control" id="date" />
-			</div>
-			<div style="clear: both;"></div>
-		</div>
-		<div class="form-group">
-			<div class="form_content_title">
-				<span>顧客名</span>
-				<button class="btn btn-default" data-toggle="modal" data-target="#customer_list_modal" id="customer_list_btn"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
-			</div>
-			<div class="form_content_value" style="width: 500px;">
-				<input type="text" class="form-control" id="customer_name" />
-			</div>
-			<div style="clear: both;"></div>
-		</div>
-		<div class="form-group">
-			<div class="form_content_title">
-				<span>件名</span>
-			</div>
-			<div class="form_content_value"style="width: 500px;">
-				<input type="text" class="form-control" id="job" />
-			</div>
-			<div style="clear: both;"></div>
-		</div>
-		<div class="form-group">
-			<div class="form_content_title_lg">
-				<span>明細</span>
-			</div>
-			<div class="form_content_value_lg">
-				<table id="recode_list">
-					<thead>
-						<tr>
-							<th>商品</th>
-							<th>詳細</th>
-							<th>数量</th>
-							<th>単価</th>
-							<th>合計</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-<!--
-						<tr>
-							<td><input type="text" class="form-control" data-id="name" /></td>
-							<td><input type="text" class="form-control" data-id="description" /></td>
-							<td><input type="text" class="form-control" data-id="quantity" /></td>
-							<td><input type="text" class="form-control" data-id="unit_price" /></td>
-							<td class="disp"><span data-id="line_total"></span></td>
-							<td><button class="btn" data-id="delete">削除</button></td>
-						</tr>
--->
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="2"><button class="btn" id="add_recode">明細追加</button></td>
-							<td colspan="2" class="subtotal">小計（¥）</td>
-							<td class="subtotal"><span id="subtotal">0</span></td>
-							<td rowspan="3"></td>
-						</tr>
-						<tr>
-							<td colspan="2" rowspan="2"></td>
-							<td colspan="2" class="salestax"><input type="checkbox" id="is_salestax" checked="checked" />消費税（¥）</td>
-							<td class="salestax"><span id="salestax">0</span></td>
-						</tr>
-						<tr>
-							<td colspan="2" class="total">総額（¥）</td>
-							<td class="total"><span id="total">0</span></td>
-						</tr>
-					</tfoot>
-				</table>
+			<div class="form-group">
+				<div class="form_content_title">
+					<span>件名</span>
+				</div>
+				<div class="form_content_value" style="width: 500px;">
+					<input type="text" class="form-control" id="job" />
+				</div>
+				<div style="clear: both;"></div>
 			</div>
 		</div>
-		<div class="form-group">
-			<div class="form_content_title_lg">
-				<span>備考</span>
+		<br />
+		<div class="my_company_area">
+			<div class="form-group" id="display_my_company_area">
+				<div class="form_content_title">
+					<span>自社情報</span>
+					<button class="btn btn-default" id="show_my_company_input_area"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+				</div>
+				<div class="form_content_value" style="width: 500px;">
+					<input type="text" class="form-control" id="display_my_company" disabled="disabled" />
+				</div>
+				<div style="clear: both;"></div>
 			</div>
-			<div class="form_content_value_lg">
-				<textarea class="form-control" id="content"></textarea>
+			<div class="form-group my_company_input_area" data-id="my_company_input_area">
+				<div class="form_content_title">
+					<span>自社情報</span>
+					<button class="btn btn-default" id="hide_my_company_input_area"><i class="glyphicon glyphicon-triangle-top"></i></button>
+				</div>
+				<div class="form_content_value" style="width: 500px;">
+				</div>
+				<div style="clear: both;"></div>
 			</div>
-			<div style="clear: both;"></div>
+			<div class="form-group my_company_input_area" data-id="my_company_input_area">
+				<div class="form_content_title">
+					<span>社名</span>
+					<button class="btn btn-default" data-toggle="modal" data-target="#customer_list_modal" id="customer_list_btn"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+				</div>
+				<div class="form_content_value" style="width: 500px;">
+					<input type="text" class="form-control" id="my_name" />
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="form-group my_company_input_area" data-id="my_company_input_area">
+				<div class="form_content_title">
+					<span>郵便番号</span>
+				</div>
+				<div class="form_content_value" style="width: 120px;">
+					<input type="text" class="form-control" id="my_zip" />
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="form-group my_company_input_area" data-id="my_company_input_area">
+				<div class="form_content_title">
+					<span>住所</span>
+				</div>
+				<div class="form_content_value" style="width: 500px;">
+					<input type="text" class="form-control" id="my_address" />
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+			<div class="form-group my_company_input_area" data-id="my_company_input_area">
+				<div class="form_content_title">
+					<span>電話番号</span>
+				</div>
+				<div class="form_content_value" style="width: 200px;">
+					<input type="text" class="form-control" id="my_telephone" />
+				</div>
+				<div style="clear: both;"></div>
+			</div>
+		</div>
+		<br />
+		<div class="basic_area">
+			<div class="form-group">
+				<div class="form_content_title_lg">
+					<span>明細</span>
+				</div>
+				<div class="form_content_value_lg">
+					<table id="recode_list">
+						<thead>
+							<tr>
+								<th>商品</th>
+								<th>詳細</th>
+								<th>数量</th>
+								<th>単価</th>
+								<th>合計</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+	<!--
+							<tr>
+								<td><input type="text" class="form-control" data-id="name" /></td>
+								<td><input type="text" class="form-control" data-id="description" /></td>
+								<td><input type="text" class="form-control" data-id="quantity" /></td>
+								<td><input type="text" class="form-control" data-id="unit_price" /></td>
+								<td class="disp"><span data-id="line_total"></span></td>
+								<td><button class="btn" data-id="delete">削除</button></td>
+							</tr>
+	-->
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2"><button class="btn" id="add_recode">明細追加</button></td>
+								<td colspan="2" class="subtotal">小計（¥）</td>
+								<td class="subtotal"><span id="subtotal">0</span></td>
+								<td rowspan="3"></td>
+							</tr>
+							<tr>
+								<td colspan="2" rowspan="2"></td>
+								<td colspan="2" class="salestax"><input type="checkbox" id="is_salestax" checked="checked" />消費税（¥）</td>
+								<td class="salestax"><span id="salestax">0</span></td>
+							</tr>
+							<tr>
+								<td colspan="2" class="total">総額（¥）</td>
+								<td class="total"><span id="total">0</span></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="form_content_title_lg">
+					<span>備考</span>
+				</div>
+				<div class="form_content_value_lg">
+					<textarea class="form-control" id="content"></textarea>
+				</div>
+				<div style="clear: both;"></div>
+			</div>
 		</div>
 	</form>
 	<div class="page_menu">
@@ -125,15 +189,30 @@
 				<li><a href="#" data-id="load_template" data-toggle="modal" data-target="#template_road_modal">テンプレート読込</a></li>
 				<li><a href="#" data-id="save_template">テンプレート保存</a></li>
 				<li role="separator" class="divider"></li>
-				<li><a href="#" data-id="download">保存してPDFダウンロード</a></li>
-				<li><a href="#" data-id="send_mail">保存してメール送信</a></li>
+				<li><a href="#" data-id="download">作成してPDFダウンロード</a></li>
+				<li><a href="#" data-id="send_mail">作成してメール送信</a></li>
 			</ul>
 		</div>
 		<button class="btn btn-sm page_menu_btn" data-id="preview">プレビュー</button>
-		<button class="btn btn-sm page_menu_btn" data-id="create_quat">保存</button>
+		<button class="btn btn-sm page_menu_btn" data-id="create_quat">作成</button>
 		<div style="clear: both;"></div>
 	</div>
 </div>
+
+<!-- プレビュー -->
+<div class="modal fade bs-example-modal-lg preview_modal" tabindex="-1" role="dialog" id="preview_modal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<iframe width="100%" class="preview">
+				</iframe>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <!-- build:js js/main.js -->
 <script src="scripts/create_quat.js"></script>

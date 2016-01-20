@@ -29,6 +29,11 @@ recode
  quantity
  unit_price
  line_total
+template
+ template_name
+ template_type
+ template_recode_size(int)
+ master_my_company(Boolean)
 </content>
 </entry>
 </feed>

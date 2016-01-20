@@ -12,11 +12,18 @@ module.exports = function () {
 	                    '/mycompany'
 	                    ];
 	
+	deleteList(uid, initSelfList);
 	var res = postList(uid, initSelfList);
 	setList(uid, initSelfList);
 	ReflexContext.doResponse(res);
 
 };
+
+function deleteList(uid, initSelfList) {
+	for (var i = 0, ii = initSelfList.length; i < ii; ++i) {
+		ReflexContext.deleteFolder('/' + uid + initSelfList[i] + '?_rf');
+	}
+}
 
 function postList(uid, initSelfList) {
 	var data = { 'feed': { 'entry': getEntry(uid, initSelfList)}};

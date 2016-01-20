@@ -69,19 +69,22 @@
 <div class="footer">
 </div>
 
-<!-- テンプレート一覧 -->
+<!-- テンプレート読込 -->
 <div class="modal fade" tabindex="-1" role="dialog" id="template_road_modal">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">テンプレート一覧</h4>
+				<h4 class="modal-title">テンプレート読込</h4>
 			</div>
 			<div class="modal-body">
-			<table class="table">
+			<table class="table" id="template_road_list">
 				<thead>
 					<tr>
 						<th>テンプレート名</th>
+						<th>顧客名</th>
+						<th>明細</th>
+						<th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -93,6 +96,152 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- テンプレート保存 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="template_save_modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">テンプレート保存</h4>
+			</div>
+			<div class="modal-body">
+				<p>現在の入力内容をテンプレートとして保存します。<br />保存したテンプレートを読み込むことで次回から入力補完することができます。</p>
+				<div class="well">
+					テンプレート名
+					<input type="text" class="form-control" id="template_save_input" />
+					<form class="form" style="margin-top: 10px;">
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>見積書No</span>
+							</div>
+							<div class="form_content_value">
+								<span id="template_save_number"></span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>見積日</span>
+							</div>
+							<div class="form_content_value">
+								<span id="template_save_date"></span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>顧客名</span>
+							</div>
+							<div class="form_content_value">
+								<span id="template_save_customer_name"></span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>件名</span>
+							</div>
+							<div class="form_content_value">
+								<span id="template_save_job"></span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>自社情報</span>
+								<button class="btn btn-default" id="show_template_save_my_company_area"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+								<button class="btn btn-default" id="hide_template_save_my_company_area" style="display: none;"><i class="glyphicon glyphicon-triangle-top"></i></button>
+							</div>
+							<div class="form_content_value checkbox">
+								<label>
+									<input type="checkbox" checked="checked" id="template_save_is_my_company" /> 自社情報はマスタから補完する
+								</label>
+							</div>
+							<div style="clear: both;"></div>
+							<div class="form_content_value_lg" id="template_save_my_company_area" style="display: none;">
+								<div class="form-group">
+									<div class="form_content_title right">
+										<span>社名</span>
+									</div>
+									<div class="form_content_value none">
+										<span id="template_save_my_name"></span>
+									</div>
+									<div style="clear: both;"></div>
+								</div>
+								<div class="form-group">
+									<div class="form_content_title right">
+										<span>郵便番号</span>
+									</div>
+									<div class="form_content_value none">
+										<span id="template_save_my_zip"></span>
+									</div>
+									<div style="clear: both;"></div>
+								</div>
+								<div class="form-group">
+									<div class="form_content_title right">
+										<span>住所</span>
+									</div>
+									<div class="form_content_value none">
+										<span id="template_save_my_address"></span>
+									</div>
+									<div style="clear: both;"></div>
+								</div>
+								<div class="form-group">
+									<div class="form_content_title right">
+										<span>電話番号</span>
+									</div>
+									<div class="form_content_value none">
+										<span id="template_save_my_telephone"></span>
+									</div>
+									<div style="clear: both;"></div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>明細</span>
+								<button class="btn btn-default" id="show_template_save_recode_list_area"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+								<button class="btn btn-default" id="hide_template_save_recode_list_area" style="display: none;"><i class="glyphicon glyphicon-triangle-top"></i></button>
+							</div>
+							<div class="form_content_value">
+								<span id="template_save_recode_list_length"></span>
+							</div>
+							<div style="clear: both;"></div>
+							<div class="form_content_value_lg" id="template_save_recode_list_area" style="display: none;">
+								<table class="table" id="template_save_recode_list">
+									<thead>
+										<tr>
+											<th>商品</th>
+											<th>詳細</th>
+											<th style="width:50px;">数量</th>
+											<th style="width:100px;">単価</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+						<div class="form-group">
+							<div class="form_content_title">
+								<span>備考</span>
+							</div>
+							<div class="form_content_value">
+								<span id="template_save_content"></span>
+							</div>
+							<div style="clear: both;"></div>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+				<button type="button" class="btn btn-primary" id="template_save_modal_ok">保存</button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -126,6 +275,66 @@
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<!-- 自社情報初期登録 -->
+<div class="modal fade" tabindex="-1" role="dialog" id="init_my_company_modal" data-backdrop="false">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">自社情報初期登録</h4>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-success" role="alert">
+					ここで自社情報を登録しておくと、見積書や請求書を作成する際に入力した内容で自動補完します。<br />
+					ここで入力したデータはあとで編集することができます。またスキップしてもあとで登録することができます。
+				</div>
+				<form class="form-horizontal">
+					<div class="form-group">
+						<label for="init_my_name" class="col-sm-3 control-label">社名</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="init_my_name" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="init_my_zip" class="col-sm-3 control-label">郵便番号</label>
+						<div class="col-sm-3">
+							<input type="text" class="form-control" id="init_my_zip" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="init_my_address" class="col-sm-3 control-label">住所</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" id="init_my_address" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="init_my_telephone" class="col-sm-3 control-label">電話番号</label>
+						<div class="col-sm-5">
+							<input type="text" class="form-control" id="init_my_telephone" />
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="init_my_company_modal_skip">スキップ</button>
+				<button type="button" class="btn btn-primary" id="init_my_company_modal_ok">保存</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- 通信成功通知 -->
+<div class="alert alert-success alert-dismissible notice" id="noticeSuccess">
+	<button type="button" class="close" onclick="$('#noticeSuccess').hide();"><span aria-hidden="true">&times;</span></button>
+	<i class="glyphicon glyphicon-ok"></i><span id="noticeSuccessMesseage" style="margin-left: 10px;"></span>
+</div>
+
+<!-- 通信失敗通知 -->
+<div class="alert alert-danger alert-dismissible notice" id="noticeError">
+	<button type="button" class="close" onclick="$('#noticeError').hide();"><span aria-hidden="true">&times;</span></button>
+	<i class="glyphicon glyphicon-alert"></i><span id="noticeErrorMesseage" style="margin-left: 10px;"></span>
+</div>
 
 </body>
 </html>

@@ -26,6 +26,7 @@ $(function(){
   }
   $('#login_btn').click(function(){
     doSubmit();
+    return false;
   });
 
   $('#password').keypress( function ( e ) {

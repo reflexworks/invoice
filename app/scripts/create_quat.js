@@ -8,6 +8,14 @@ $(function(){
 	$('[data-id="load_template"]').click(function(){
 		_load_template_type = 'quat';
 		_$load_template_target = $('#create_quat_form');
+		getTemplateList();
+	});
+
+	// テンプレート保存表示
+	$('[data-id="save_template"]').click(function(){
+		_save_template_type = 'quat';
+		_save_template_data = getTemplateData();
+		viewTemplateData();
 	});
 
 	// 顧客一覧表示
@@ -16,19 +24,34 @@ $(function(){
 		_$customer_input_target = $('#customer_name');
 	});
 
+	// 自社情報を表示する
+	setMyCompany();
+
+	// 自社情報編集
+	$('#show_my_company_input_area').click(function(){
+		$('[data-id="my_company_input_area"]').show();
+		$('#display_my_company_area').hide();
+	});
+	$('#hide_my_company_input_area').click(function(){
+		$('[data-id="my_company_input_area"]').hide();
+		$('#display_my_company_area').show();
+	});
+
 	// 消費税を加えるか加えないか
 	$('#is_salestax').change(function(){
 		
 		var isFlg = $(this).prop('checked');
 		var subtotal = $('#subtotal').html() ? parseInt($('#subtotal').attr('data-subtotal')) : 0;
-		if (isFlg) {
+		if (isFlg && subtotal) {
 			salestax = subtotal * _salestax;
 			salestax = Math.floor(salestax);
 		} else {
 			salestax = 0;
 		}
 		$('#salestax').html(_common.priceSeparator(salestax));
-		$('#total').html(_common.priceSeparator((subtotal + salestax)));
+		if (subtotal) {
+			$('#total').html(_common.priceSeparator((subtotal + salestax)));
+		}
 	});
 
 	// 初期設定で明細を5行追加
@@ -48,27 +71,26 @@ $(function(){
 				'url': '/d/' + _uid + '/preview',
 				'data': postData
 			}).then(function(res){
-				var windowId = 'preview' + Math.random();
-				window.open('', windowId);
-				setTimeout(function(){
-					window.open('/s/output_pdf?data=/' + _uid + '/preview&template=/pdf/invoice.html', windowId);
-				}, 0);
+				$('#preview_modal').modal('show').find('iframe').attr('src', '/s/output_pdf?data=/' + _uid + '/preview&template=/pdf/invoice.html');
 			}, function(res){
 				
 			});
 		});
 	});
+	
+	// プレビュー画面リサイズ処理
+	$(window).on('resize', {target: '#preview_modal'}, _common.resizePreviewModal).resize();
 
 	// 見積書作成実行
 	$('[data-id="create_quat"]').click(function(){
 		var postData = getData();
 		$.restModule.post({
-			'url': '/d/' + _uid + '/trans',
+			'url': '/s/save_transaction',
 			'data': postData
 		}).then(function(res){
-			
+			_common.noticeSuccess('見積書保存完了');
 		}, function(res){
-			
+			_common.noticeError('見積書保存失敗');
 		});
 	});
 
@@ -148,20 +170,11 @@ function getData(){
 	obj.feed.entry = [];
 	obj.feed.entry[0] = {}
 	
-	var transaction = {};
-	transaction.number = $('#number').val();
-	transaction.date = $('#date').val();
-	transaction.job = $('#job').val();
-	transaction.subtotal = $('#subtotal').html();
-	transaction.salestax = $('#salestax').html();
-	transaction.total = $('#total').html();	
-	obj.feed.entry[0].transaction = transaction;
-	
-	var customer = {};
-	customer.customer_name = $('#customer_name').val();
-	obj.feed.entry[0].customer = customer;
-
-	obj.feed.entry[0].content = {'______text' : $('#content').val()};
+	obj.feed.entry[0].transaction = getTransactionData();
+	obj.feed.entry[0].customer = getCustomerData();
+	obj.feed.entry[0].my_company = getMyCompanyData();
+	obj.feed.entry[0].content = getContentData();
+	obj.feed.entry[0].subtitle = getIsSalestax();
 
 	var $recodes = $('#recode_list').find('tbody').find('tr');
 	var num = 1;
@@ -171,16 +184,111 @@ function getData(){
 		var quantity = $recode.find('[data-id="quantity"]').val();
 		var unit_price = $recode.find('[data-id="unit_price"]').val();
 		if (quantity && unit_price) {
-			recode.seq = num;
-			recode.name = $recode.find('[data-id="name"]').val();
-			recode.description = $recode.find('[data-id="description"]').val();
-			recode.quantity = quantity;
-			recode.unit_price = unit_price;
-			recode.line_total = $recode.find('[data-id="line_total"]').html();
-			obj.feed.entry.push({'recode': recode});
+			var recodeData = getRecodeData($recode);
+			recodeData.recode.seq = num;
+			obj.feed.entry.push(recode);
 			num++;
 		}
 	}
 	
 	return obj;
+}
+
+function getTemplateData(){
+	var obj = {};
+	obj.feed = {}
+	obj.feed.entry = [];
+	obj.feed.entry[0] = {}
+	
+	obj.feed.entry[0].transaction = getTransactionData();
+	obj.feed.entry[0].customer = getCustomerData();
+	obj.feed.entry[0].my_company = getMyCompanyData();
+	obj.feed.entry[0].content = getContentData();
+	obj.feed.entry[0].subtitle = getIsSalestax();
+
+	var $recodes = $('#recode_list').find('tbody').find('tr');
+	for (var i = 0, ii = $recodes.length; i < ii; ++i) {
+		var $recode = $recodes.eq(i);
+		obj.feed.entry.push(getRecodeData($recode));
+	}
+	
+	return obj;
+}
+
+function getTransactionData(){
+	var transaction = {};
+	transaction.number = $('#number').val();
+	transaction.date = $('#date').val();
+	transaction.job = $('#job').val();
+	transaction.subtotal = $('#subtotal').html();
+	transaction.salestax = _salestax;
+	transaction.total = $('#total').html();
+	return transaction;
+}
+function getCustomerData(){
+	var customer = {};
+	customer.customer_name = $('#customer_name').val();
+	return customer;
+}
+function getMyCompanyData(){
+	var my_company = {};
+	my_company.my_name = $('#my_name').val();
+	my_company.my_zip = $('#my_zip').val();
+	my_company.my_address = $('#my_address').val();
+	my_company.my_telephone = $('#my_telephone').val();
+	return my_company;
+}
+function getContentData(){
+	return {'______text' : $('#content').val()};
+}
+function getRecodeData($recode){
+	var recode = {};
+	var quantity = $recode.find('[data-id="quantity"]').val();
+	var unit_price = $recode.find('[data-id="unit_price"]').val();
+	recode.name = $recode.find('[data-id="name"]').val();
+	recode.description = $recode.find('[data-id="description"]').val();
+	recode.quantity = $recode.find('[data-id="quantity"]').val();
+	recode.unit_price = $recode.find('[data-id="unit_price"]').val();
+	recode.line_total = $recode.find('[data-id="line_total"]').html();
+	return {'recode': recode};
+}
+
+function setMyCompany(){
+	$.restModule.get({
+		'url': '/d/'+ _uid +'/mycompany?f&title=default'
+	}).then(function(res){
+		var entry = res.feed.entry[0];
+		var my_name = entry.my_company.my_name;
+		var my_zip = entry.my_company.my_zip;
+		var my_address = entry.my_company.my_address;
+		var my_telephone = entry.my_company.my_telephone;
+		var array = ['', ' 〒', '', ' ', '', ' Tel: ', ''];
+		array[0] = my_name;
+		array[2] = my_zip;
+		array[4] = my_address;
+		array[6] = my_telephone;
+		$('#display_my_company').val(array.join(''));
+		$('#my_name').val(my_name).change(function(){
+			array[0] = $(this).val();
+			$('#display_my_company').val(array.join(''));
+		});
+		$('#my_zip').val(my_zip).change(function(){
+			array[2] = $(this).val();
+			$('#display_my_company').val(array.join(''));
+		});;
+		$('#my_address').val(my_address).change(function(){
+			array[4] = $(this).val();
+			$('#display_my_company').val(array.join(''));
+		});;
+		$('#my_telephone').val(my_telephone).change(function(){
+			array[6] = $(this).val();
+			$('#display_my_company').val(array.join(''));
+		});;
+	}, function(res){
+		_common.noticeError('自社情報取得失敗');
+	});
+}
+
+function getIsSalestax(){
+	return $('#is_salestax').prop('checked') === true ? '税込':'税抜';
 }
